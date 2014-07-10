@@ -8,16 +8,36 @@
  * Factory in the showScheduleApp.
  */
 angular.module('showScheduleApp')
-  .factory('keywordSvc', function () {
-    // Service logic
-    // ...
+    .factory('keywordSvc', function(localStorageService) {
+        var keywordsKey = 'keywords';
+        var keywords = null;
 
-    var meaningOfLife = 42;
+        var getKeywordsFromText = function (text) {
+            return text.match(/\w+/);
+        };
 
-    // Public API here
-    return {
-      someMethod: function () {
-        return meaningOfLife;
-      }
-    };
-  });
+        var getKeywords = function () {
+            if (keywords === null) {
+                keywords = localStorageService.get(keywordsKey);
+                keywords = keywords && angular.fromJson(keywords) || {};
+            }
+            return keywords;
+        };
+        
+        var getKeywordsByTitle = function (title) {
+            var keywords = getKeywords()[title];
+            return keywords || getKeywordsFromText(title);
+        };
+        
+        var setKeywords = function (title, keywords) {
+            getKeywords()[title] = getKeywordsFromText(keywords);
+            localStorageService.add(keywordsKey, angular.toJson(keywords));
+            keywords = null;
+        };
+
+        return {
+            getKeywords: getKeywords,
+            getKeywordsByTitle: getKeywordsByTitle,
+            setKeywords: setKeywords
+        };
+    });

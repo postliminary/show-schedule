@@ -1,11 +1,14 @@
-[ {
-    "images"": [ {
-        "url": "http://example.com/demo.jpg",
-        "path": "full/demo.jpg",
-        "checksum": "99999999999999999999999999999999"
-    } ],
+[{
+    "images"
+    ": [ {
+        "
+    url ": "
+    http: //example.com/demo.jpg",
+    "path": "full/demo.jpg",
+    "checksum": "99999999999999999999999999999999"
+}],
     "startdate": "January 1, 1970",
-    "airday": "mon", // mon, tues, wednes, thurs, fri, sat, sun, none
-    "image_urls": [ "http://example.com/demo.jpg" ],
-    "title": "Example"
-} ];
+"airday": "mon", // mon, tues, wednes, thurs, fri, sat, sun, none
+"image_urls": ["http://example.com/demo.jpg"],
+"title": "Example"
+}];
