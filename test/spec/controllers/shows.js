@@ -5,13 +5,13 @@ describe('Controller: ShowListCtrl', function () {
   // load the controller's module
   beforeEach(module('showScheduleApp'));
 
-  var MainCtrl,
+  var ShowListCtrl,
     scope;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    MainCtrl = $controller('ShowListCtrl', {
+    ShowListCtrl = $controller('ShowListCtrl', {
       $scope: scope
     });
   }));
