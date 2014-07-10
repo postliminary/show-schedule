@@ -8,21 +8,28 @@
  * Factory in the showScheduleApp.
  */
 angular.module('showScheduleApp')
-    .factory('showSvc', function($http, localStorageService) {
+    .factory('showSvc', function($http, $q, appConfig, localStorageService) {
         var shows = null;
-        
+
         var watchingShowsKey = 'notWatchedShows';
         var watchingShows = null;
 
         var getShows = function() {
             if (shows === null) {
-                $http.get('data/shows.json').success(function(data) {
-                    shows = data;
-                });
+                var defer = $q.defer();
+                
+                $http
+                    .get(appConfig.showsResource)
+                    .success(function(data) {
+                        shows = data;
+                        defer.resolve(data);
+                    });
+                    
+                return defer.promise;
             }
-            return shows;
+            return $q.when(shows);
         };
-        
+
         var getWatchingShows = function() {
             if (watchingShows === null) {
                 watchingShows = localStorageService.get(watchingShowsKey);
@@ -30,18 +37,19 @@ angular.module('showScheduleApp')
             }
             return watchingShows;
         };
-        
+
         var saveWatchingShows = function() {
             localStorageService.add(watchingShowsKey, angular.toJson(watchingShows));
+            watchingShows = null;
         };
-        
-        var watchShow = function (title) {
-            getWatchingShows()[title] = true;
+
+        var watchShow = function(id) {
+            getWatchingShows()[id] = true;
             saveWatchingShows();
         };
-        
-        var notWatchShow = function (title) {
-            getWatchingShows()[title] = false;
+
+        var notWatchShow = function(id) {
+            getWatchingShows()[id] = false;
             saveWatchingShows();
         };
 

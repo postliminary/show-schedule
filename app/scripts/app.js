@@ -32,4 +32,8 @@ angular
             .otherwise({
                 redirectTo: '/shows'
             });
+    })
+    .constant('appConfig', {
+        findEpisodesUrlPrefixDefault: 'www.google.com/search?q=',
+        showsResource: 'data/shows.json'
     });

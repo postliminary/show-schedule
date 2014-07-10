@@ -12,32 +12,32 @@ angular.module('showScheduleApp')
         var keywordsKey = 'keywords';
         var keywords = null;
 
-        var getKeywordsFromText = function (text) {
-            return text.match(/\w+/);
+        var getKeywordsFromText = function(text) {
+            return text.match(/[A-Za-z0-9]+/g);
         };
 
-        var getKeywords = function () {
+        var getKeywords = function() {
             if (keywords === null) {
                 keywords = localStorageService.get(keywordsKey);
                 keywords = keywords && angular.fromJson(keywords) || {};
             }
             return keywords;
         };
-        
-        var getKeywordsByTitle = function (title) {
-            var keywords = getKeywords()[title];
-            return keywords || getKeywordsFromText(title);
+
+        var getKeywordsByShow = function(show) {
+            var keywords = getKeywords()[show.id];
+            return keywords || getKeywordsFromText(show.title);
         };
-        
-        var setKeywords = function (title, keywords) {
-            getKeywords()[title] = getKeywordsFromText(keywords);
+
+        var setKeywords = function(id, keywords) {
+            getKeywords()[id] = getKeywordsFromText(keywords);
             localStorageService.add(keywordsKey, angular.toJson(keywords));
             keywords = null;
         };
 
         return {
             getKeywords: getKeywords,
-            getKeywordsByTitle: getKeywordsByTitle,
+            getKeywordsByShow: getKeywordsByShow,
             setKeywords: setKeywords
         };
     });

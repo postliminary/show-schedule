@@ -115,7 +115,8 @@ module.exports = function(grunt) {
             files: [
                 'Gruntfile.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
-                '<%= yeoman.app %>/data/{,*/}*.json'
+                '<%= yeoman.app %>/data/{,*/}*.json',
+                'test/spec/{,*/}*.js'
             ],
             options: {}
         },
@@ -384,8 +385,8 @@ module.exports = function(grunt) {
                 'jsbeautifier'
             ],
             test: [
-                'compass',
-                'jsbeautifier'
+                'compass' //,
+                //'jsbeautifier'
             ],
             dist: [
                 'compass:dist',

@@ -8,7 +8,7 @@
  * Controller of the showScheduleApp
  */
 angular.module('showScheduleApp')
-    .controller('ShowsCtrl', function($scope, $http, airdaySvc) {
+    .controller('ShowsCtrl', function($scope, showSvc, airdaySvc) {
         // Actions
         $scope.byAirday = function(value) {
             $scope.query.airday = airdaySvc.getByValue(value).value;
@@ -23,11 +23,11 @@ angular.module('showScheduleApp')
         };
 
         // Model
+        showSvc.getShows().then(function(shows) {
+            $scope.shows = shows;
+        });
         $scope.airdays = airdaySvc.getAirdays();
         $scope.query = {
             airday: airdaySvc.getToday().value
         };
-        $http.get('data/shows.json').success(function(data) {
-            $scope.shows = data;
-        });
     });
