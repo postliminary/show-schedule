@@ -19,7 +19,7 @@ angular.module('showScheduleApp')
         var getKeywords = function() {
             if (keywords === null) {
                 keywords = localStorageService.get(keywordsKey);
-                keywords = keywords && angular.fromJson(keywords) || {};
+                keywords = keywords || {};
             }
             return keywords;
         };
@@ -31,7 +31,7 @@ angular.module('showScheduleApp')
 
         var setKeywords = function(id, keywords) {
             getKeywords()[id] = getKeywordsFromText(keywords);
-            localStorageService.add(keywordsKey, angular.toJson(keywords));
+            localStorageService.add(keywordsKey, keywords);
             keywords = null;
         };
 

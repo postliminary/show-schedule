@@ -22,7 +22,7 @@ angular.module('showScheduleApp')
             $scope.selected = undefined;
         };
 
-        // Model
+        // View Model
         showSvc.getShows().then(function(shows) {
             $scope.shows = shows;
         });

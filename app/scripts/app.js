@@ -34,6 +34,6 @@ angular
             });
     })
     .constant('appConfig', {
-        findEpisodesUrlPrefixDefault: 'www.google.com/search?q=',
+        findEpisodesUrlPrefixDefault: 'www.google.com/search?q=episodes+',
         showsResource: 'data/shows.json'
     });

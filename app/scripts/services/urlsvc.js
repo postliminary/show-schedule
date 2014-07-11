@@ -19,11 +19,11 @@ angular.module('showScheduleApp')
             }
             return findEpisodesUrlPrefix;
         };
-        
+
         var setFindEpisodesUrlPrefix = function(prefix) {
-            localStorageService.add(findEpisodesUrlPrefixKey, angular.toJson(prefix));
+            localStorageService.add(findEpisodesUrlPrefixKey, prefix);
             findEpisodesUrlPrefix = null;
-        }
+        };
 
         var getFindEpisodesUrlForShow = function(show) {
             return getFindEpisodesUrlPrefix() + keywordSvc.getKeywordsByShow(show).join('+');

@@ -33,7 +33,7 @@ module.exports = function(config) {
     ],
 
     // list of files / patterns to exclude
-    exclude: ['test/spec/**/shows.js'],
+    exclude: [],
 
     // web server port
     port: 8080,

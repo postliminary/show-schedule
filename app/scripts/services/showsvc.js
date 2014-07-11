@@ -17,14 +17,14 @@ angular.module('showScheduleApp')
         var getShows = function() {
             if (shows === null) {
                 var defer = $q.defer();
-                
+
                 $http
                     .get(appConfig.showsResource)
                     .success(function(data) {
                         shows = data;
                         defer.resolve(data);
                     });
-                    
+
                 return defer.promise;
             }
             return $q.when(shows);
