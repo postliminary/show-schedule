@@ -30,23 +30,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                <a class="navbar-brand" href="#">Show Schedule</a>
+                <a class="navbar-brand" href="#/shows">Show Schedule</a>
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse">
               <form class="navbar-form navbar-left">
-                    <div class="btn-group" data-toggle="buttons">
-                      <label ng-repeat="airday in airdays" class="btn btn-default {{ airday.value == activeAirday.value? 'active': '' }}">
-                            <input type="radio" name="airday" id="airday-{{airday.value}}" ng-click="showsByAirday('{{airday.value}}')" />{{airday.sym}}
+                    <div class="btn-group">
+                      <label ng-repeat="airday in airdays" class="btn btn-default {{ airday.value == selectedAirday.value? 'active': '' }}">
+                            <input type="radio" name="selectedAirday" ng-model="$parent.selectedAirday" ng-change="onSelectAirday()" ng-value="airday" />{{airday.sym}}
                         </label>
-                  </div>             
+                  </div>          
               </form>
                 <div class="btn-group navbar-right">
                         <button class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
                           <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Edit Watchlist</a></li>
-                          <li><a href="#">Settings</a></li>
+                          <li><a href="#/shows/watchlist">Edit Watchlist</a></li>
+                          <li><a href="#/settings">Settings</a></li>
                         </ul>
                 </div>
             </div>
@@ -101,7 +101,7 @@
         <script src="scripts/services/keywordsvc.js"></script>
         <script src="scripts/services/urlsvc.js"></script>
         <script src="scripts/controllers/nav.js"></script>
-        <script src="scripts/filters/split.js"></script>
+        <script src="scripts/controllers/watchlist.js"></script>
         <!-- endbuild -->
 </body>
 </html>

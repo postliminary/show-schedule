@@ -27,6 +27,7 @@ body {
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
+  margin-bottom: $line-height-computed;
 
   /* Make the masthead heading the same height as the navigation */
   h3 {
@@ -59,13 +60,15 @@ body {
   }
 }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
+iframe {
+  width: 100%;
+  border: none;
+}
 
-  p + h4 {
-    margin-top: 28px;
-  }
+/* Fix for bs data-toggle radio buttons */
+label.btn > input[type='radio']
+{
+    display: none;
 }
 
 /* Responsive: Portrait tablets and up */

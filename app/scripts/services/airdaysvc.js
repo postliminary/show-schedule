@@ -8,7 +8,7 @@
  * Factory in the showScheduleApp.
  */
 angular.module('showScheduleApp')
-    .factory('airdaySvc', function() {
+    .factory('airdaySvc', function($rootScope) {
         // Airdays lookup
         var airdays = [{
             sym: '月',
@@ -65,11 +65,35 @@ angular.module('showScheduleApp')
             return getToday();
         };
 
+        var SELECT_AIRDAY = 'selectAirday';
+
+        var selected = getToday();
+
+        var getSelected = function() {
+            return selected;
+        };
+
+        var selectAirday = function(airday) {
+            // Validate selection
+            selected = getByValue(airday.value);
+            // Boradcast event
+            $rootScope.$broadcast(SELECT_AIRDAY, {
+                selected: selected
+            });
+        };
+
+        var onSelectAirday = function($scope, handler) {
+            $scope.$on(SELECT_AIRDAY, function(event, message) {
+                handler(message);
+            });
+        };
+
         return {
             getAirdays: function() {
                 return airdays;
             },
-            getToday: getToday,
-            getByValue: getByValue
+            getSelected: getSelected,
+            selectAirday: selectAirday,
+            onSelectAirday: onSelectAirday
         };
     });

@@ -6,6 +6,7 @@
                 <h2>{{show.title}}</h2>
                 <p ng-if="show.desc">{{show.desc}}</p>
                 <p>
+                    <a ng-href="{{urlForShow(show)}}" class="btn btn-primary" target="_BLANK">Find Episodes</a>
                     <button ng-click="popupFindEpisodes(show)" data-toggle="modal" data-target="#findEpisodeModal" 
                         class="btn btn-primary" role="button">Find Episodes</button>
                 </p>
@@ -24,7 +25,7 @@
                 <h4 class="modal-title" id="findEpisodeModalLabel">{{findEpisodesFor.title}}</h4>
             </div>
             <div class="modal-content">
-                <!--Add iframe-->
+                <iframe ng-src="{{findEpisodesFor.url}}"></iframe>
             </div>
         </div>
     </div>

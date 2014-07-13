@@ -9,7 +9,12 @@
  */
 angular.module('showScheduleApp')
     .controller('NavCtrl', function($scope, airdaySvc) {
-        $scope.airdays = airdaySvc.getAirdays();
-        $scope.activeAirday = airdaySvc.getToday();
+        // Actions
+        $scope.onSelectAirday = function() {
+            airdaySvc.selectAirday($scope.selectedAirday);
+        };
 
+        // View Model
+        $scope.selectedAirday = airdaySvc.getSelected();
+        $scope.airdays = airdaySvc.getAirdays();
     });

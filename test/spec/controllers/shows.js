@@ -51,10 +51,6 @@ describe('Controller: ShowsCtrl', function() {
         expect(typeof scope.query.airday).toBe('string');
     });
 
-    it('should provide a showsByAirday function', function() {
-        expect(typeof scope.showsByAirday).toBe('function');
-    });
-
     it('showsByAirday should change query property', function() {
         expect(scope.query.airday).not.toBe('none');
         scope.showsByAirday('none');

@@ -6,9 +6,10 @@ describe('Service: airdaySvc', function() {
     beforeEach(module('showScheduleApp'));
 
     // instantiate service
-    var airdaySvc;
-    beforeEach(inject(function(_airdaySvc_) {
+    var airdaySvc, $rootScope;
+    beforeEach(inject(function(_airdaySvc_, _$rootScope_) {
         airdaySvc = _airdaySvc_;
+        $rootScope = _$rootScope_;
     }));
 
     var expectedValues = ['mon', 'tue', 'wed', 'thr', 'fri', 'sat', 'sun', 'none'];
@@ -23,8 +24,8 @@ describe('Service: airdaySvc', function() {
         expect(airdays.length).toBeGreaterThan(0);
     });
 
-    it('should return todays airday object', function() {
-        var today = airdaySvc.getToday();
+    it('should return selected airday object', function() {
+        var today = airdaySvc.getSelected();
         expect(today instanceof Object).toBe(true);
         expect(typeof today.value).toBe('string');
         expect(typeof today.name).toBe('string');
@@ -33,12 +34,28 @@ describe('Service: airdaySvc', function() {
 
     it('should return expected airday objects', function() {
         for (var i = 0; i < expectedValues.length; i++) {
-            expect(airdaySvc.getByValue(expectedValues[i]).value).toBe(expectedValues[i]);
+            airdaySvc.selectAirday({
+                value: expectedValues[i]
+            });
+            var airday = airdaySvc.getSelected();
+            expect(airday.value).toBe(expectedValues[i]);
         }
     });
 
-    it('should return valid airday value for unknown value', function() {
-        var unknown = airdaySvc.getByValue('q');
+    it('should return default airday value for unknown value', function() {
+        airdaySvc.selectAirday({
+            value: 'q'
+        });
+        var unknown = airdaySvc.getSelected();
         expect(expectedValues.indexOf(unknown.value)).toBeGreaterThan(-1);
+    });
+
+    it('should broadcast selected airday changes', function() {
+        spyOn($rootScope, '$broadcast');
+        var airday = airdaySvc.getSelected();
+        airdaySvc.selectAirday(airday);
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('selectAirday', {
+            selected: airday
+        });
     });
 });

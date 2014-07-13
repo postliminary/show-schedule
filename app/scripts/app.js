@@ -29,11 +29,15 @@ angular
                 templateUrl: 'views/shows.html',
                 controller: 'ShowsCtrl'
             })
+            .when('/shows/watchlist', {
+                templateUrl: 'views/watchlist.html',
+                controller: 'ShowsCtrl'
+            })
             .otherwise({
                 redirectTo: '/shows'
             });
     })
     .constant('appConfig', {
-        findEpisodesUrlPrefixDefault: 'www.google.com/search?q=episodes+',
+        findEpisodesUrlPrefixDefault: 'http://www.google.com/search?q=episodes+',
         showsResource: 'data/shows.json'
     });
