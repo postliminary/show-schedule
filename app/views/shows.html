@@ -1,14 +1,5 @@
 <div class="row">
-    <div class="col-lg-12">
-        <ul class="nav nav-pills" role="tablist">
-            <li ng-repeat="airday in airdays" class="{{ airday.value == query.airday? 'active': '' }}">
-                <a href="" ng-click="byAirday('{{airday.value}}')" title="{{airday.name}}">{{airday.sym}}</a>
-            </li>
-        </ul>
-    </div>
-</div>
-<div class="row">
-    <div ng-repeat="show in shows | filter:query | orderBy:'title'" class="col-lg-4">
+    <div ng-repeat-start="show in shows | filter:query | orderBy:'title'" class="col-lg-{{partition.size}}">
         <div class="thumbnail">
             <img ng-if="show.images[0]" ng-src="{{'/images/shows/' + show.images[0].path}}" />
             <div class="caption">
@@ -21,6 +12,7 @@
             </div>
         </div>
     </div>
+    <div ng-repeat-end="" ng-if="$index % partition.count == partition.size" class="clearfix"></div>
 </div>
 <div id="findEpisodeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="findEpisodeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -29,7 +21,7 @@
                 <button ng-click="closeFindEpisodes()" type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title" id="findEpisodeModalLabel">{{selected.title}}</h4>
+                <h4 class="modal-title" id="findEpisodeModalLabel">{{findEpisodesFor.title}}</h4>
             </div>
             <div class="modal-content">
                 <!--Add iframe-->
@@ -37,4 +29,3 @@
         </div>
     </div>
 </div>
-

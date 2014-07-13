@@ -9,17 +9,24 @@
  */
 angular.module('showScheduleApp')
     .controller('ShowsCtrl', function($scope, showSvc, airdaySvc) {
+        // Number of shows per row
+        var showCount = 4;
+        $scope.partition = {
+            count: showCount,
+            size: 12 / showCount
+        };
+        
         // Actions
-        $scope.byAirday = function(value) {
+        $scope.showsByAirday = function(value) {
             $scope.query.airday = airdaySvc.getByValue(value).value;
         };
 
         $scope.popupFindEpisodes = function(show) {
-            $scope.selected = show;
+            $scope.findEpisodesFor = show;
         };
 
         $scope.closeFindEpisodes = function() {
-            $scope.selected = undefined;
+            $scope.findEpisodesFor = null;
         };
 
         // View Model
@@ -30,4 +37,5 @@ angular.module('showScheduleApp')
         $scope.query = {
             airday: airdaySvc.getToday().value
         };
+        $scope.findEpisodesFor = null;
     });

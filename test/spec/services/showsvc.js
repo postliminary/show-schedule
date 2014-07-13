@@ -7,7 +7,7 @@ describe('Service: showSvc', function() {
 
     // instantiate service
     var showSvc, $httpBackend, appConfig;
-    
+
     var sample = '[{\
                     "startdate": "Jan 1, 2000",\
                     "title": "Test Title 1",\
@@ -55,14 +55,14 @@ describe('Service: showSvc', function() {
 
     it('should return an array of shows', function() {
         $httpBackend.when("GET", appConfig.reportUrl).respond(sample);
-        
+
         var shows;
         showSvc.getShows().then(function(data) {
             shows = data;
         });
-        
+
         $httpBackend.flush();
-        
+
         expect(shows instanceof Array).toBe(true);
         expect(shows.length).toBeGreaterThan(0);
         // Test structure of first object
