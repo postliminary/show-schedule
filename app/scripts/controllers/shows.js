@@ -8,41 +8,65 @@
  * Controller of the showScheduleApp
  */
 angular.module('showScheduleApp')
-    .controller('ShowsCtrl', function($scope, $sce, showSvc, airdaySvc, urlSvc) {
+    .controller('ShowsCtrl', function($scope, $sce, navSvc, showSvc, airdaySvc, urlSvc, keywordSvc) {
         // Number of shows per row
         var showCount = 4;
         $scope.partition = {
             count: showCount,
             size: 12 / showCount
         };
+        
+        var getShows = function() {
+            if (navSvc.position.editing) {
+                showSvc.getShows().then(function(shows) {
+                    $scope.shows = shows;
+                });
+            } else {
+                showSvc.getCurrentlyWatching().then(function(shows) {
+                    $scope.shows = shows;
+                });
+            }
+        };
 
         // Actions
-        $scope.popupFindEpisodes = function(show) {
-            $scope.findEpisodesFor = {
-                title: show.title,
-                url: $sce.trustAsResourceUrl(urlSvc.getFindEpisodesUrlForShow(show))
-            };
-        };
-
-        $scope.closeFindEpisodes = function() {
-            $scope.findEpisodesFor = null;
-        };
-
         $scope.urlForShow = function(show) {
             return urlSvc.getFindEpisodesUrlForShow(show);
-        }
+        };
 
-        airdaySvc.onSelectAirday($scope, function(message) {
+        $scope.isWatchingShow = function(show) {
+            return showSvc.isWatchingShow(show.id);
+        };
+
+        $scope.watchShow = function(show) {
+            showSvc.watchShow(show.id);
+        };
+
+        $scope.dontWatchShow = function(show) {
+            showSvc.dontWatchShow(show.id);
+            getShows();
+        };
+
+        navSvc.onSelectAirday($scope, function(message) {
             $scope.query.airday = message.selected.value;
         });
 
+        $scope.editKeywords = function(show) {
+            $scope.editKeywordsFor = show;
+            $scope.keywordsForShow = keywordSvc.getKeywordsByShow(show).join(' ');
+        };
+
+        $scope.saveKeywordsForShow = function() {
+            keywordSvc.setKeywords($scope.editKeywordsFor.id, $scope.keywordsForShow);
+            var test = keywordSvc.getKeywordsByShow($scope.editKeywordsFor);
+            getShows();
+        };
+
         // View Model
-        showSvc.getShows().then(function(shows) {
-            $scope.shows = shows;
-        });
+        getShows();
+
         $scope.airdays = airdaySvc.getAirdays();
         $scope.query = {
-            airday: airdaySvc.getSelected().value
+            airday: navSvc.getSelectedAirday().value
         };
-        $scope.findEpisodesFor = null;
+        $scope.position = navSvc.position;
     });

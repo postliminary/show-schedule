@@ -1,0 +1,20 @@
+<form role="form">
+    <div class="form-group">
+        <label for="findEpisodesUrlPrefix">Find Episodes Url Prefix</label>
+        <p class="help-block">This prefix will be used for episode searches by appending keywords for a particular show.</p>
+        <div class="input-group">      
+            <input ng-model="urlForShow" type="text" class="form-control" id="findEpisodesUrlPrefix" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary" ng-click="saveUrlForShow()" type="button">Save</button>
+            </span>
+        </div>
+    </div>
+    <!--
+    <div class="form-group">
+        <label for="clearData">Clear User Data</label>
+        <p class="help-block">Reset currently watching, custom keywords, etc...</p>
+        <button type="button" class="btn btn-danger" ng-click="clearData()" id="clearData">Clear Data</button>
+    <div>
+    -->
+</form>
+    

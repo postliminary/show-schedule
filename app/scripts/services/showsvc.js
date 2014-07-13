@@ -11,8 +11,8 @@ angular.module('showScheduleApp')
     .factory('showSvc', function($http, $q, appConfig, localStorageService) {
         var shows = null;
 
-        var watchingShowsKey = 'notWatchedShows';
-        var watchingShows = null;
+        var watchlistKey = 'notWatchedShows';
+        var watchlist = null;
 
         var getShows = function() {
             if (shows === null) {
@@ -30,33 +30,54 @@ angular.module('showScheduleApp')
             return $q.when(shows);
         };
 
-        var getWatchingShows = function() {
-            if (watchingShows === null) {
-                watchingShows = localStorageService.get(watchingShowsKey);
-                watchingShows = watchingShows && angular.fromJson(watchingShows) || {};
+        var getCurrentlyWatching = function() {
+            var defer = $q.defer();
+
+            getShows().then(function(shows) {
+                var watching = [];
+                for (var i = 0; i < shows.length; i++) {
+                    if (isWatchingShow(shows[i].id)) {
+                        watching.push(shows[i]);
+                    }
+                }
+                defer.resolve(watching);
+            });
+
+            return defer.promise;
+        };
+
+        var getWatchlist = function() {
+            if (watchlist === null) {
+                watchlist = localStorageService.get(watchlistKey);
+                watchlist = watchlist && angular.fromJson(watchlist) || {};
             }
-            return watchingShows;
+            return watchlist;
+        };
+
+        var isWatchingShow = function(id) {
+            return getWatchlist()[id] !== false;
         };
 
         var saveWatchingShows = function() {
-            localStorageService.add(watchingShowsKey, angular.toJson(watchingShows));
-            watchingShows = null;
+            localStorageService.add(watchlistKey, angular.toJson(watchlist));
+            watchlist = null;
         };
 
         var watchShow = function(id) {
-            getWatchingShows()[id] = true;
+            getWatchlist()[id] = true;
             saveWatchingShows();
         };
 
-        var notWatchShow = function(id) {
-            getWatchingShows()[id] = false;
+        var dontWatchShow = function(id) {
+            getWatchlist()[id] = false;
             saveWatchingShows();
         };
 
         return {
             getShows: getShows,
-            getWatchingShows: getWatchingShows,
+            getCurrentlyWatching: getCurrentlyWatching,
+            isWatchingShow: isWatchingShow,
             watchShow: watchShow,
-            notWatchShow: notWatchShow
+            dontWatchShow: dontWatchShow
         };
     });

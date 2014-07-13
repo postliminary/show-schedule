@@ -29,9 +29,13 @@ angular
                 templateUrl: 'views/shows.html',
                 controller: 'ShowsCtrl'
             })
-            .when('/shows/watchlist', {
-                templateUrl: 'views/watchlist.html',
+            .when('/shows/edit', {
+                templateUrl: 'views/shows.html',
                 controller: 'ShowsCtrl'
+            })
+            .when('/settings', {
+                templateUrl: 'views/settings.html',
+                controller: 'SettingsCtrl'
             })
             .otherwise({
                 redirectTo: '/shows'

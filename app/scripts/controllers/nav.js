@@ -8,13 +8,14 @@
  * Controller of the showScheduleApp
  */
 angular.module('showScheduleApp')
-    .controller('NavCtrl', function($scope, airdaySvc) {
+    .controller('NavCtrl', function($scope, $location, navSvc, airdaySvc) {
         // Actions
-        $scope.onSelectAirday = function() {
-            airdaySvc.selectAirday($scope.selectedAirday);
+        $scope.onSelectAirday = function(airday) {
+            navSvc.selectAirday(airday);
         };
 
         // View Model
-        $scope.selectedAirday = airdaySvc.getSelected();
+        $scope.selectedAirday = navSvc.getSelectedAirday();
         $scope.airdays = airdaySvc.getAirdays();
+        $scope.position = navSvc.position;
     });

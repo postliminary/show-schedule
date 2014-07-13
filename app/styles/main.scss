@@ -27,15 +27,18 @@ body {
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
-  margin-bottom: $line-height-computed;
+}
 
-  /* Make the masthead heading the same height as the navigation */
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
-  }
+.content {
+  padding-top: $line-height-computed;    
+}
+
+.thumbnail.watching img {
+    
+}
+
+.thumbnail.notwatching img {
+    @include opacity(0.5);
 }
 
 /* Custom page footer */
@@ -47,17 +50,6 @@ body {
 
 .container-narrow > hr {
   margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
-  }
 }
 
 iframe {

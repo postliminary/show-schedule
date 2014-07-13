@@ -1,32 +1,71 @@
 <div class="row">
     <div ng-repeat-start="show in shows | filter:query | orderBy:'title'" class="col-lg-{{partition.size}}">
-        <div class="thumbnail">
+        <div class="thumbnail {{isWatchingShow(show)? 'watching' : 'notwatching'}}">
             <img ng-if="show.images[0]" ng-src="{{'/images/shows/' + show.images[0].path}}" />
             <div class="caption">
-                <h2>{{show.title}}</h2>
+                <h3>{{show.title}}</h3>
                 <p ng-if="show.desc">{{show.desc}}</p>
-                <p>
-                    <a ng-href="{{urlForShow(show)}}" class="btn btn-primary" target="_BLANK">Find Episodes</a>
-                    <button ng-click="popupFindEpisodes(show)" data-toggle="modal" data-target="#findEpisodeModal" 
-                        class="btn btn-primary" role="button">Find Episodes</button>
-                </p>
+                <div ng-if="!position.editing">
+                    <div class="btn-group">
+                        <a ng-href="{{urlForShow(show)}}" class="btn btn-primary" target="_BLANK">Find Episodes</a>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>
+                                    <a data-toggle="modal" data-target="#editKeywordsModal" ng-click="editKeywords(show)" 
+                                        href="">Edit Keywords ...</a>
+                                </li>
+                                <li>
+                                    <a ng-click="dontWatchShow(show)" 
+                                        href="">Don't Watch</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div ng-if="position.editing">
+                    <div class="btn-group" data-toggle=”buttons”>
+                      <button type="button" class="btn {{ isWatchingShow(show)? 'active btn-primary': 'btn-default' }}" 
+                        ng-click="watchShow(show)">
+                            Watch
+                        </label>
+                        <button type="button" class="btn {{ isWatchingShow(show)? 'btn-default': 'active btn-danger' }}"
+                            ng-click="dontWatchShow(show)">
+                            Don't Watch
+                        </button>
+                    </div> 
+                </div>
             </div>
         </div>
     </div>
     <div ng-repeat-end="" ng-if="$index % partition.count == partition.size" class="clearfix"></div>
 </div>
-<div id="findEpisodeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="findEpisodeModalLabel" aria-hidden="true">
+<div id="editKeywordsModal" class="modal fade" tabindex="-1" role="dialog" 
+    aria-labelledby="editKeywordsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button ng-click="closeFindEpisodes()" type="button" class="close" data-dismiss="modal">
+                <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
                 </button>
-                <h4 class="modal-title" id="findEpisodeModalLabel">{{findEpisodesFor.title}}</h4>
+                <h4 class="modal-title" id="editKeywordsModalLabel">Keywords For "{{editKeywordsFor.title}}"</h4>
             </div>
-            <div class="modal-content">
-                <iframe ng-src="{{findEpisodesFor.url}}"></iframe>
+            <div class="modal-body">
+                <form role="form">
+                    <div class="form-group">
+                        <p class="help-block">Customize the list of terms used to find episodes for this show.</p>
+                        <div class="input-group">      
+                            <input ng-model="keywordsForShow" type="text" class="form-control" id="keywordsForShow" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" ng-click="saveKeywordsForShow()" data-dismiss="modal" type="button">Save</button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
