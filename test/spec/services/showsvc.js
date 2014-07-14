@@ -6,9 +6,10 @@ describe('Service: showSvc', function() {
     beforeEach(module('showScheduleApp'));
 
     // instantiate service
-    var showSvc, $httpBackend, appConfig;
+    var showSvc, $httpBackend, appConfig, localStorageService;
 
     var sample = '[{\
+                    "id":"test1",\
                     "startdate": "Jan 1, 2000",\
                     "title": "Test Title 1",\
                     "image_urls": ["http://example.com/test1.jpg"],\
@@ -20,6 +21,7 @@ describe('Service: showSvc', function() {
                     "airday": "mon",\
                     "desc": "Test show number 1"\
                 }, {\
+                    "id":"test2",\
                     "startdate": "Jan 1, 2000",\
                     "title": "Test Title 2",\
                     "image_urls": ["http://example.com/test2.jpg"],\
@@ -31,6 +33,7 @@ describe('Service: showSvc', function() {
                     "airday": "tue",\
                     "desc": "Test show number 2"\
                 }, {\
+                    "id":"test3",\
                     "startdate": "Jan 1, 2000",\
                     "title": "Test Title 3",\
                     "image_urls": ["http://example.com/test3.jpg"],\
@@ -43,14 +46,36 @@ describe('Service: showSvc', function() {
                     "desc": "Test show number 3"\
                 }]';
 
-    beforeEach(inject(function(_showSvc_, _$httpBackend_, _appConfig_) {
+    beforeEach(inject(function(_showSvc_, _$httpBackend_, _appConfig_, _localStorageService_) {
         showSvc = _showSvc_;
         $httpBackend = _$httpBackend_;
         appConfig = _appConfig_;
+        localStorageService = _localStorageService_;
+        localStorageService.clearAll();
     }));
 
     it('should do something', function() {
         expect(!!showSvc).toBe(true);
+    });
+
+    it('should provide a getShows function', function() {
+        expect(typeof showSvc.getShows).toBe('function');
+    });
+
+    it('should provide a getCurrentlyWatching function', function() {
+        expect(typeof showSvc.getCurrentlyWatching).toBe('function');
+    });
+
+    it('should provide a isWatchingShow function', function() {
+        expect(typeof showSvc.isWatchingShow).toBe('function');
+    });
+
+    it('should provide a watchShow function', function() {
+        expect(typeof showSvc.watchShow).toBe('function');
+    });
+
+    it('should provide a dontWatchShow function', function() {
+        expect(typeof showSvc.dontWatchShow).toBe('function');
     });
 
     it('should return an array of shows', function() {
@@ -73,24 +98,25 @@ describe('Service: showSvc', function() {
         expect(show.images instanceof Array).toBe(true);
     });
 
-    it('should return an object of shows being watched', function() {
-        var watchingShows = showSvc.getWatchingShows();
-        expect(watchingShows instanceof Object).toBe(true);
+    it('should return an array of shows being watched', function() {
+        $httpBackend.when("GET", appConfig.reportUrl).respond(sample);
+
+        var watchingShows;
+        showSvc.getCurrentlyWatching().then(function(data) {
+            watchingShows = data;
+        });
+
+        $httpBackend.flush();
+
+        expect(watchingShows instanceof Array).toBe(true);
     });
 
-    it('should say show is not watching', function() {
+    it('should toggle show is watching / not watching', function() {
         var id = 'test1';
-        var watchingShows = showSvc.getWatchingShows();
-        expect(watchingShows[id]).not.toBeDefined();
-        showSvc.notWatchShow(id);
-        watchingShows = showSvc.getWatchingShows();
-        expect(watchingShows[id]).toBe(false);
-    });
-
-    it('should say show is watching', function() {
-        var id = 'test2';
+        expect(showSvc.isWatchingShow(id)).toBe(true);
+        showSvc.dontWatchShow(id);
+        expect(showSvc.isWatchingShow(id)).toBe(false);
         showSvc.watchShow(id);
-        var watchingShows = showSvc.getWatchingShows();
-        expect(watchingShows[id]).toBe(true);
+        expect(showSvc.isWatchingShow(id)).toBe(true);
     });
 });

@@ -38,7 +38,7 @@ angular.module('showScheduleApp')
         var selectAirday = function(airday) {
             // Validate selection
             selectedAirday = airdaySvc.getByValue(airday.value);
-            // Boradcast event
+            // Broadcast event
             $rootScope.$broadcast(SELECTED_AIRDAY, {
                 selected: selectedAirday
             });
@@ -50,10 +50,27 @@ angular.module('showScheduleApp')
             });
         };
 
+        // Edit keywords modal
+        var EDIT_KEYWORDS = 'editKeywords';
+
+        var editKeywords = function(show) {
+            $rootScope.$broadcast(EDIT_KEYWORDS, {
+                show: show
+            });
+        };
+
+        var onEditKeywords = function($scope, handler) {
+            $scope.$on(EDIT_KEYWORDS, function(event, message) {
+                handler(message);
+            });
+        };
+
         return {
             position: position,
             getSelectedAirday: getSelectedAirday,
             selectAirday: selectAirday,
-            onSelectAirday: onSelectAirday
+            onSelectAirday: onSelectAirday,
+            editKeywords: editKeywords,
+            onEditKeywords: onEditKeywords
         };
     });

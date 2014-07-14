@@ -13,9 +13,9 @@ angular.module('showScheduleApp')
             localStorageService.clearAll();
         };
 
-        $scope.saveUrlForShow = function() {
-            urlSvc.setFindEpisodesUrlPrefix($scope.urlForShow);
+        $scope.saveUrlForShowPrefix = function() {
+            urlSvc.setFindEpisodesUrlPrefix($scope.urlForShowPrefix);
         };
 
-        $scope.urlForShow = urlSvc.getFindEpisodesUrlPrefix();
+        $scope.urlForShowPrefix = urlSvc.getFindEpisodesUrlPrefix();
     });

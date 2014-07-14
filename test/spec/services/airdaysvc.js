@@ -18,44 +18,33 @@ describe('Service: airdaySvc', function() {
         expect(!!airdaySvc).toBe(true);
     });
 
+    it('should provide a getAirdays function', function() {
+        expect(typeof airdaySvc.getAirdays).toBe('function');
+    });
+
+    it('should provide a getToday function', function() {
+        expect(typeof airdaySvc.getToday).toBe('function');
+    });
+
+    it('should provide a getByValue function', function() {
+        expect(typeof airdaySvc.getByValue).toBe('function');
+    });
+
     it('should return an array of airdays', function() {
         var airdays = airdaySvc.getAirdays();
         expect(airdays instanceof Array).toBe(true);
         expect(airdays.length).toBeGreaterThan(0);
     });
 
-    it('should return selected airday object', function() {
-        var today = airdaySvc.getSelected();
-        expect(today instanceof Object).toBe(true);
-        expect(typeof today.value).toBe('string');
-        expect(typeof today.name).toBe('string');
-        expect(typeof today.sym).toBe('string');
-    });
-
     it('should return expected airday objects', function() {
         for (var i = 0; i < expectedValues.length; i++) {
-            airdaySvc.selectAirday({
-                value: expectedValues[i]
-            });
-            var airday = airdaySvc.getSelected();
+            var airday = airdaySvc.getByValue(expectedValues[i]);
             expect(airday.value).toBe(expectedValues[i]);
         }
     });
 
     it('should return default airday value for unknown value', function() {
-        airdaySvc.selectAirday({
-            value: 'q'
-        });
-        var unknown = airdaySvc.getSelected();
+        var unknown = airdaySvc.getByValue('z');
         expect(expectedValues.indexOf(unknown.value)).toBeGreaterThan(-1);
-    });
-
-    it('should broadcast selected airday changes', function() {
-        spyOn($rootScope, '$broadcast');
-        var airday = airdaySvc.getSelected();
-        airdaySvc.selectAirday(airday);
-        expect($rootScope.$broadcast).toHaveBeenCalledWith('selectAirday', {
-            selected: airday
-        });
     });
 });

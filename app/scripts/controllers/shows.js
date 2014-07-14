@@ -15,7 +15,7 @@ angular.module('showScheduleApp')
             count: showCount,
             size: 12 / showCount
         };
-        
+
         var getShows = function() {
             if (navSvc.position.editing) {
                 showSvc.getShows().then(function(shows) {
@@ -46,20 +46,17 @@ angular.module('showScheduleApp')
             getShows();
         };
 
+        $scope.editKeywords = function(show) {
+            navSvc.editKeywords(show);
+        };
+
         navSvc.onSelectAirday($scope, function(message) {
             $scope.query.airday = message.selected.value;
         });
 
-        $scope.editKeywords = function(show) {
-            $scope.editKeywordsFor = show;
-            $scope.keywordsForShow = keywordSvc.getKeywordsByShow(show).join(' ');
-        };
-
-        $scope.saveKeywordsForShow = function() {
-            keywordSvc.setKeywords($scope.editKeywordsFor.id, $scope.keywordsForShow);
-            var test = keywordSvc.getKeywordsByShow($scope.editKeywordsFor);
+        keywordSvc.onSetKeywords($scope, function(message) {
             getShows();
-        };
+        });
 
         // View Model
         getShows();

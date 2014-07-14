@@ -42,7 +42,7 @@
     </div>
     <div ng-repeat-end="" ng-if="$index % partition.count == partition.size" class="clearfix"></div>
 </div>
-<div id="editKeywordsModal" class="modal fade" tabindex="-1" role="dialog" 
+<div ng-controller="KeywordCtrl" id="editKeywordsModal" class="modal fade" tabindex="-1" role="dialog" 
     aria-labelledby="editKeywordsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

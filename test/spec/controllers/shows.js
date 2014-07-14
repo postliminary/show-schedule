@@ -8,7 +8,8 @@ describe('Controller: ShowsCtrl', function() {
     var ShowsCtrl, scope, $httpBackend, appConfig, showSvc, airdaySvc;
 
     var testShow = {
-        id: 'test'
+        id: 'testshowscrtl',
+        title: 'super test title'
     };
 
     // Initialize the controller and a mock scope
@@ -46,36 +47,28 @@ describe('Controller: ShowsCtrl', function() {
         expect(typeof scope.query.airday).toBe('string');
     });
 
-    it('should provide a findEpisodesFor property', function() {
-        expect(scope.query instanceof Object).toBe(true);
-        expect(typeof scope.query.airday).toBe('string');
+    it('should provide a position property', function() {
+        expect(scope.position instanceof Object).toBe(true);
+        expect(scope.position.editing).toBeDefined();
     });
 
-    it('showsByAirday should change query property', function() {
-        expect(scope.query.airday).not.toBe('none');
-        scope.showsByAirday('none');
-        expect(scope.query.airday).toBe('none');
+    it('should provide a urlForShow function', function() {
+        expect(typeof scope.urlForShow).toBe('function');
     });
 
-    it('should provide a popupFindEpisodes function', function() {
-        expect(typeof scope.popupFindEpisodes).toBe('function');
+    it('should provide a isWatchingShow function', function() {
+        expect(typeof scope.isWatchingShow).toBe('function');
     });
 
-    it('popupFindEpisodes should change findEpisodesFor property', function() {
-        expect(scope.findEpisodesFor).toBe(null);
-        scope.popupFindEpisodes(testShow);
-        expect(scope.findEpisodesFor instanceof Object).toBe(true);
+    it('should provide a watchShow function', function() {
+        expect(typeof scope.watchShow).toBe('function');
     });
 
-    it('should attach a closeFindEpisodes function', function() {
-        expect(typeof scope.closeFindEpisodes).toBe('function');
+    it('should provide a dontWatchShow function', function() {
+        expect(typeof scope.dontWatchShow).toBe('function');
     });
 
-    it('closeFindEpisodes should change findEpisodesFor property', function() {
-        scope.popupFindEpisodes(testShow);
-        expect(scope.findEpisodesFor instanceof Object).toBe(true);
-
-        scope.closeFindEpisodes(testShow);
-        expect(scope.findEpisodesFor).toBe(null);
+    it('should provide a editKeywords function', function() {
+        expect(typeof scope.editKeywords).toBe('function');
     });
 });

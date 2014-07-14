@@ -6,18 +6,37 @@ describe('Service: keywordSvc', function() {
     beforeEach(module('showScheduleApp'));
 
     // instantiate service
-    var keywordSvc;
-    beforeEach(inject(function(_keywordSvc_) {
+    var $rootScope, keywordSvc, localStorageService;
+    beforeEach(inject(function(_$rootScope_, _keywordSvc_, _localStorageService_) {
+        $rootScope = _$rootScope_;
         keywordSvc = _keywordSvc_;
+        localStorageService = _localStorageService_;
+        localStorageService.clearAll();
     }));
 
     var testShow = {
-        id: 'test',
+        id: 'testkeywordsvc',
         title: 'super test title'
     };
 
     it('should do something', function() {
         expect(!!keywordSvc).toBe(true);
+    });
+
+    it('should provide a getKeywords function', function() {
+        expect(typeof keywordSvc.getKeywords).toBe('function');
+    });
+
+    it('should provide a setKeywords function', function() {
+        expect(typeof keywordSvc.setKeywords).toBe('function');
+    });
+
+    it('should provide a onSetKeywords function', function() {
+        expect(typeof keywordSvc.onSetKeywords).toBe('function');
+    });
+
+    it('should provide a getKeywordsByShow function', function() {
+        expect(typeof keywordSvc.getKeywordsByShow).toBe('function');
     });
 
     it('should return an map of keywords', function() {
@@ -39,5 +58,14 @@ describe('Service: keywordSvc', function() {
         expect(keywords instanceof Array).toBe(true);
         expect(keywords[0]).toBe('cool');
         expect(keywords[1]).toBe('name');
+    });
+
+    it('should broadcast set keywords action', function() {
+        spyOn($rootScope, '$broadcast');
+        keywordSvc.setKeywords('x', 'test key me');
+        expect($rootScope.$broadcast).toHaveBeenCalledWith('setKeywords', {
+            id: 'x',
+            keywords: 'test key me'
+        });
     });
 });

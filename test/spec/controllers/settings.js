@@ -16,7 +16,15 @@ describe('Controller: SettingsCtrl', function() {
         });
     }));
 
-    it('should attach a list of awesomeThings to the scope', function() {
-        expect(scope.awesomeThings.length).toBe(3);
+    it('should provide a clearData function', function() {
+        expect(typeof scope.clearData).toBe('function');
+    });
+
+    it('should provide a saveUrlForShowPrefix function', function() {
+        expect(typeof scope.saveUrlForShowPrefix).toBe('function');
+    });
+
+    it('should provide a urlForShowPrefix property', function() {
+        expect(typeof scope.urlForShowPrefix).toBe('string');
     });
 });

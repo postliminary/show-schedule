@@ -49,7 +49,7 @@ angular.module('showScheduleApp')
         var getWatchlist = function() {
             if (watchlist === null) {
                 watchlist = localStorageService.get(watchlistKey);
-                watchlist = watchlist && angular.fromJson(watchlist) || {};
+                watchlist = watchlist || {};
             }
             return watchlist;
         };
@@ -59,8 +59,7 @@ angular.module('showScheduleApp')
         };
 
         var saveWatchingShows = function() {
-            localStorageService.add(watchlistKey, angular.toJson(watchlist));
-            watchlist = null;
+            localStorageService.add(watchlistKey, watchlist);
         };
 
         var watchShow = function(id) {

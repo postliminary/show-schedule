@@ -6,9 +6,11 @@ describe('Service: urlSvc', function() {
     beforeEach(module('showScheduleApp'));
 
     // instantiate service
-    var urlSvc;
-    beforeEach(inject(function(_urlSvc_) {
+    var urlSvc, localStorageService;
+    beforeEach(inject(function(_urlSvc_, _localStorageService_) {
         urlSvc = _urlSvc_;
+        localStorageService = _localStorageService_;
+        localStorageService.clearAll();
     }));
 
     var testShow = {
@@ -20,8 +22,20 @@ describe('Service: urlSvc', function() {
         expect(!!urlSvc).toBe(true);
     });
 
+    it('should provide a getFindEpisodesUrlPrefix function', function() {
+        expect(typeof urlSvc.getFindEpisodesUrlPrefix).toBe('function');
+    });
+
+    it('should provide a setFindEpisodesUrlPrefix function', function() {
+        expect(typeof urlSvc.setFindEpisodesUrlPrefix).toBe('function');
+    });
+
+    it('should provide a getFindEpisodesUrlForShow function', function() {
+        expect(typeof urlSvc.getFindEpisodesUrlForShow).toBe('function');
+    });
+
     it('should generate correct default url', function() {
-        expect(urlSvc.getFindEpisodesUrlForShow(testShow)).toBe('www.google.com/search?q=episodes+super+test+title');
+        expect(urlSvc.getFindEpisodesUrlForShow(testShow)).toBe('http://www.google.com/search?q=episodes+super+test+title');
     });
 
     it('should set new url and use in subsequent requests', function() {

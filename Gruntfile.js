@@ -237,7 +237,7 @@ module.exports = function(grunt) {
                 flow: {
                     html: {
                         steps: {
-                            js: ['concat', 'uglifyjs'],
+                            js: ['concat'], //, 'uglifyjs'],
                             css: ['cssmin']
                         },
                         post: {}
@@ -351,11 +351,11 @@ module.exports = function(grunt) {
                     cwd: '<%= yeoman.app %>',
                     dest: '<%= yeoman.dist %>',
                     src: [
-                        '*.{ico,png,txt}',
+                        '*.{ico,png,jpg,txt}',
                         '.htaccess',
                         '*.html',
                         'views/{,*/}*.html',
-                        'images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                        'images/**/*',
                         'data/{,*/}*',
                         'fonts/*'
                     ]
@@ -386,8 +386,8 @@ module.exports = function(grunt) {
                 'jsbeautifier'
             ],
             test: [
-                'compass' //,
-                //'jsbeautifier'
+                'compass',
+                'jsbeautifier'
             ],
             dist: [
                 'compass:dist',
@@ -445,7 +445,7 @@ module.exports = function(grunt) {
         'copy:dist',
         'cdnify',
         'cssmin',
-        'uglify',
+        //'uglify',
         'filerev',
         'usemin',
         'htmlmin'
